@@ -19,7 +19,7 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>F:\github\App1\App1\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>CFE91B7C69FBC464B39C1B5522A84ACE16371DDB84FA7A89D9F43C21496EE522</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>276E8D6C2F6B4EF8A567574DC420E3FC4A7E4DBDB263EDB61AC0C6CAFC838C9C</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2_1.0.0.0_x86__75cr2b68sm664</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2_75cr2b68sm664!App</RegisteredUserModeAppID>
     <RegisteredPackageID>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2</RegisteredPackageID>
@@ -31,13 +31,13 @@
     <AppXManifest Include="F:\github\App1\App1\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T16:17:07.477</Modified>
+      <Modified>2018-03-29T15:51:00.726</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\App1.exe">
       <PackagePath>entrypoint\App1.exe</PackagePath>
-      <Modified>2018-03-13T16:17:01.208</Modified>
+      <Modified>2018-03-29T15:50:55.690</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\microsoft.csharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -94,6 +94,14 @@
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\microsoft.visualbasic\10.0.1\lib\netcore50\Microsoft.VisualBasic.dll">
       <PackagePath>Microsoft.VisualBasic.dll</PackagePath>
       <Modified>2016-06-11T14:13:10.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Administrator\.nuget\packages\microsoft.xaml.behaviors.uwp.managed\2.0.0\lib\uap10.0\Microsoft.Xaml.Interactions.dll">
+      <PackagePath>Microsoft.Xaml.Interactions.dll</PackagePath>
+      <Modified>2016-10-19T09:07:18.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Administrator\.nuget\packages\microsoft.xaml.behaviors.uwp.managed\2.0.0\lib\uap10.0\Microsoft.Xaml.Interactivity.dll">
+      <PackagePath>Microsoft.Xaml.Interactivity.dll</PackagePath>
+      <Modified>2016-10-19T09:07:18.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\runtime.any.system.collections\4.0.11\lib\netcore50\System.Collections.dll">
       <PackagePath>System.Collections.dll</PackagePath>
@@ -535,20 +543,20 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\App1.xr.xml">
       <PackagePath>App1.xr.xml</PackagePath>
-      <Modified>2018-03-13T16:17:00.805</Modified>
+      <Modified>2018-03-29T15:37:16.773</Modified>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.16299.0\Windows.winmd">
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.15063.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
-      <Modified>2017-09-28T09:28:16.000</Modified>
+      <Modified>2018-03-11T02:58:11.785</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-03-13T16:17:06.210</Modified>
+      <Modified>2018-03-29T15:50:58.488</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\Core\App1.exe">
       <PackagePath>App1.exe</PackagePath>
-      <Modified>2018-03-13T16:17:07.428</Modified>
+      <Modified>2018-03-29T15:51:00.676</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

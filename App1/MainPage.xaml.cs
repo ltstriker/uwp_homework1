@@ -13,6 +13,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using System.Collections.ObjectModel;
+using App1.Models;
+using System.Collections;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -21,69 +24,101 @@ namespace App1
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
+    /// 
+
+
     public sealed partial class MainPage : Page
     {
+        ViewModels.ListItemViewModels ViewModel = new ViewModels.ListItemViewModels();
+
         public MainPage()
         {
             this.InitializeComponent();
-        }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            /*var dialog = new MessageDialog("当前设置尚未保存，你确认要退出该页面吗?", "消息提示");
-
-            dialog.Commands.Add(new UICommand("确定", cmd => { textBlock.Text += "hah: yes \n"; }, commandId: 0));
-            dialog.Commands.Add(new UICommand("取消", cmd => { textBlock.Text += "hah: no \n"; }, commandId: 1));
-
-            //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
-            dialog.DefaultCommandIndex = 0;
-            dialog.CancelCommandIndex = 1;
-
-            //获取返回值
-            var result = await dialog.ShowAsync();*/
-            line.Visibility = Visibility.Visible;
-        }
-
-        private void CheckBox_unchecked(object sender, RoutedEventArgs e)
-        {
-            line.Visibility = Visibility.Collapsed;
-        }
-
-        private async void btn_click(object sender, RoutedEventArgs e)
-        {
-            var localTime = DateTimeOffset.Now;
-
-            if (title.Text == "")
+            ArrayList param = new ArrayList
             {
-                var dialog = new MessageDialog("title 不应该为空", "错误");
+                ViewModel,
+                -1
+            };
 
-                dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
-                dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
+            if (App.viewModel.GetType().ToString() == "System.Object")
+                App.viewModel=ViewModel;
+            else
+            {
+                ViewModel = (ViewModels.ListItemViewModels)App.viewModel;
+            }
 
-                //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
-                
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
-           
-                //获取返回值
-                var result = await dialog.ShowAsync();
-            } else if (content.Text == "") {
-                var dialog = new MessageDialog("content 不应该为空", "错误");
 
-                dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
-                dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
+            right.Navigate(typeof(newPage), param);
+        }
 
-                //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
+        private void goToCreate(object sender, RoutedEventArgs e)
+        {
+            ArrayList param = new ArrayList
+            {
+                ViewModel,
+                -1
+            };
 
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
+            if (right.Visibility == Visibility.Collapsed)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(newPage), param);
+            }
+        }
 
-                //获取返回值
-                var result = await dialog.ShowAsync();
-            } else if (dataPicker1.Date.CompareTo(localTime.Date) >= 0) {
-                //textBlock.Text += title.Text+": "+content.Text+"\n   "+dataPicker1.Date.ToString()+"\n\n";
-            } else {
-                var dialog = new MessageDialog("时间不该为已过去的时间", "错误");
+        private void Checked(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            delete.Visibility = Visibility.Visible;
+            ViewModel.seleted = true;
+            ViewModel.seleteItem = ViewModel.AllItems.IndexOf((ListItem)e.ClickedItem);
+            ArrayList param = new ArrayList
+            {
+                ViewModel,
+                ViewModel.AllItems.IndexOf((ListItem)e.ClickedItem)
+            };
+            if (right.Visibility == Visibility.Collapsed)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(newPage), param);
+            }
+            else
+            {
+                right.Navigate(typeof(newPage), param);
+            }
+        }
+
+        private async void Delete(object sender, RoutedEventArgs e)
+        {
+            if( ViewModel.seleted)
+            {
+                ViewModel.Delete();
+                ArrayList param = new ArrayList
+                {
+                  ViewModel,
+                  -1
+                 };
+
+                if (right.Visibility == Visibility.Collapsed)
+                {
+                    Frame rootFrame = Window.Current.Content as Frame;
+                    rootFrame.Navigate(typeof(MainPage));
+                }
+                else
+                {
+                    right.Navigate(typeof(newPage), param);
+                }
+
+                delete.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var dialog = new MessageDialog("内容未创建，不能删除", "错误");
 
                 dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
                 dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
@@ -95,8 +130,6 @@ namespace App1
                 //获取返回值
                 var result = await dialog.ShowAsync();
             }
-
-
         }
     }
 }
