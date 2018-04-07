@@ -46,14 +46,25 @@ namespace App1.ViewModels
 
         public Visibility CanDelete { get { return seleted ? Visibility.Visible : Visibility.Collapsed; } }
 
-        public ListItemViewModels()
+        private static ListItemViewModels _listItemViewModels;
+        private ListItemViewModels()
         {
-            this.allItems = new ObservableCollection<Models.ListItem>();
+            allItems = new ObservableCollection<Models.ListItem>();
             seleted = false;
             seleteItem = -1;
         }
 
-        public void Add(string title, string content, DateTimeOffset plan_date, ImageSource image)
+        static public ListItemViewModels getListItemViewModels()
+        {
+            if(_listItemViewModels ==null)
+            {
+                _listItemViewModels = new ListItemViewModels();
+            }
+            return _listItemViewModels;
+
+        }
+
+        public void Add(string title, string content, DateTimeOffset plan_date, string image)
         {
             this.allItems.Add(new Models.ListItem(title, content, plan_date, image));
         }
@@ -64,13 +75,19 @@ namespace App1.ViewModels
             this.seleted = false;
         }
 
-        public void Update(string title, string content, DateTimeOffset plan_date, ImageSource image)
+        public void Update(string title, string content, DateTimeOffset plan_date, string image)
         {
             this.allItems[this.seleteItem].Title = title;
             this.allItems[this.seleteItem].Content = content;
             this.allItems[this.seleteItem].Plan_date = plan_date;
-            this.allItems[this.seleteItem].Image = image;
+            this.allItems[this.seleteItem].ImageString = image;
             this.seleted = false;
+        }
+
+        public void Complete(int index, bool finish)
+        {
+            if(index>=0)
+                this.allItems[index].Completed = finish;
         }
     }
 }

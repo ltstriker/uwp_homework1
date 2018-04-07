@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using System.Collections;
 using App1.Models;
+using Windows.Storage.AccessCache;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -30,50 +31,17 @@ namespace App1
     /// </summary>
     /// 
 
+
     public sealed partial class newPage : Page
     {
-        ViewModels.ListItemViewModels ViewModel = new ViewModels.ListItemViewModels();
+        ViewModels.ListItemViewModels ViewModel = ViewModels.ListItemViewModels.getListItemViewModels();
+        private string temp_img = "";
 
         public newPage()
         {
             this.InitializeComponent();
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigated += OnNavigated;
-            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
         }
 
-        private void OnBackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
-                return;
-
-            // Navigate back if possible, and if the event has not 
-            // already been handled .
-            if (rootFrame.CanGoBack && e.Handled == false)
-            {
-                e.Handled = true;
-                rootFrame.GoBack();
-            }
-        }
-
-        private void OnNavigated(object sender, NavigationEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            if (rootFrame.CanGoBack)
-            {
-                // Show UI in title bar if opted-in and in-app backstack is not empty.
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Visible;
-            }
-            else
-            {
-                // Remove the UI from the title bar if in-app back stack is empty.
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    AppViewBackButtonVisibility.Collapsed;
-            }
-        }
         private async void btn_click(object sender, RoutedEventArgs e)
         {
             var localTime = DateTimeOffset.Now;
@@ -126,11 +94,11 @@ namespace App1
             {
                 if(!ViewModel.seleted)
                 {
-                    this.ViewModel.Add(title.Text, content.Text, dataPicker1.Date, pic.Source);
+                    this.ViewModel.Add(title.Text, content.Text, dataPicker1.Date, temp_img);
                 }
                 else
                 {
-                    this.ViewModel.Update(title.Text, content.Text, dataPicker1.Date, pic.Source);
+                    this.ViewModel.Update(title.Text, content.Text, dataPicker1.Date, temp_img);
                 }
 
                 Frame rootFrame = Window.Current.Content as Frame;
@@ -166,6 +134,13 @@ namespace App1
             openPicker.FileTypeFilter.Add(".png");
 
             StorageFile file = await openPicker.PickSingleFileAsync();
+
+            
+            temp_img = StorageApplicationPermissions.FutureAccessList.Add(file);
+            /*
+            StorageFile asd = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
+            */
+
             if (file != null)
             {       
                 IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
@@ -175,19 +150,77 @@ namespace App1
             }
         }
 
+        private async void ReadImg(string ImageString)
+        {
+            StorageFile file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(ImageString);
+
+            if (file != null)
+            {
+                IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
+                BitmapImage bi = new BitmapImage();
+                await bi.SetSourceAsync(ir);//should set source
+                pic.Source = bi;
+            }
+            else
+            {
+                pic.Source = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ArrayList param = (ArrayList)e.Parameter;
-            this.ViewModel = (ViewModels.ListItemViewModels)param[0];
-
-            if ((int)param[1] != -1)
+            if(e.NavigationMode == NavigationMode.New)
             {
-                ListItem item =  this.ViewModel.AllItems[(int)param[1]];
-                title.Text = item.Title;
-                content.Text = item.Content;
-                dataPicker1.Date = item.Plan_date;
-                pic.Source = item.Image;
-                create.Content = "Update";
+                ApplicationData.Current.LocalSettings.Values.Remove("newPage");
+
+                int param = (int)e.Parameter;
+
+
+                temp_img = "";
+
+                if ((int)param != -1)
+                {
+                    ListItem item = this.ViewModel.AllItems[(int)param];
+                    title.Text = item.Title;
+                    content.Text = item.Content;
+                    dataPicker1.Date = item.Plan_date;
+                    pic.Source = item.Image;
+                    temp_img = item.ImageString;
+                    create.Content = "Update";
+                }
+            }
+            else
+            {
+                if (ApplicationData.Current.LocalSettings.Values.ContainsKey("newPage"))
+                {
+                    ApplicationDataCompositeValue composite = ApplicationData.Current.LocalSettings.Values["newPage"] as ApplicationDataCompositeValue;
+                    title.Text = (string)composite["title"];
+                    content.Text = (string)composite["content"];
+                    dataPicker1.Date = (DateTimeOffset)composite["time"];
+                    ReadImg((string)composite["img"]);
+                    temp_img = (string)composite["img"];
+
+                    ViewModel.seleted = (bool)composite["changing"];
+                    ViewModel.seleteItem = (int)composite["changingItem"];
+
+                    ApplicationData.Current.LocalSettings.Values.Remove("newPage");
+                }
+            }
+
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (((App)App.Current).issuspend)
+            {
+                ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
+                composite["title"] = title.Text;
+                composite["content"] = content.Text;
+                composite["time"] = dataPicker1.Date;
+                composite["img"] = temp_img;
+                composite["changing"] = ViewModel.seleted;
+                composite["changingItem"] = ViewModel.seleteItem;
+                ApplicationData.Current.LocalSettings.Values["newPage"] = composite;
             }
         }
 
@@ -195,6 +228,7 @@ namespace App1
         {
             title.Text = "";
             content.Text = "";
+            temp_img = "";
             dataPicker1.Date = DateTimeOffset.Now;
 
             BitmapImage bi = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));

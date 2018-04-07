@@ -7,6 +7,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -30,12 +32,45 @@ namespace App1
         /// 
 
         public static Object viewModel=new Object();
+        public bool issuspend = false;
 
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
+
+        private void OnBackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+                return;
+
+            // Navigate back if possible, and if the event has not 
+            // already been handled .
+            if (rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
+        private void OnNavigated(object sender, NavigationEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            if (rootFrame.CanGoBack)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Visible;
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    AppViewBackButtonVisibility.Collapsed;
+            }
+        }
+
 
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
@@ -58,6 +93,11 @@ namespace App1
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: 从之前挂起的应用程序加载状态
+
+                    if(ApplicationData.Current.LocalSettings.Values.ContainsKey("NavigationState"))
+                    {
+                        rootFrame.SetNavigationState((string)ApplicationData.Current.LocalSettings.Values["NavigationState"]);
+                    }
                 }
 
                 // 将框架放在当前窗口中
@@ -76,6 +116,11 @@ namespace App1
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
+
+            this.issuspend = false;
+
+            rootFrame.Navigated += OnNavigated;
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
         }
 
         /// <summary>
@@ -99,6 +144,12 @@ namespace App1
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
+
+            this.issuspend = true;
+
+            Frame frame = Window.Current.Content as Frame;
+            ApplicationData.Current.LocalSettings.Values["NavigationState"] = frame.GetNavigationState();
+
             deferral.Complete();
         }
     }

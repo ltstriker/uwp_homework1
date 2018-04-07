@@ -5,7 +5,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.AccessCache;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace App1.Models
 {
@@ -26,6 +30,7 @@ namespace App1.Models
 
         private string id;
         private string TitleValue = "";
+        private bool CompleteValue = false;
 
         public string Title
         {
@@ -44,37 +49,93 @@ namespace App1.Models
             }
         }
         public string Content { get; set; }
-        public bool Completed { get; set; }
-        public DateTimeOffset Plan_date { get; set; }
-
-        public ImageSource ImageValue;
-
-        public ImageSource Image
-        {
+        public System.Nullable<bool> Completed {
             get
             {
-                return ImageValue;
+                return (System.Nullable<bool>)this.CompleteValue;
             }
             set
             {
-                if(value != this.ImageValue)
+                if (value != this.CompleteValue)
                 {
-                    this.ImageValue = value;
+                    if(value.HasValue)
+                    this.CompleteValue = value.Value;
+                    else
+                    {
+                        this.CompleteValue = false;
+                    }
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        public DateTimeOffset Plan_date { get; set; }
+
+        private string ImageStringValue { get; set; }
+        public string ImageString {
+            get
+            {
+                return ImageStringValue;
+            }
+            set
+            {
+                if (value != this.ImageStringValue)
+                {
+                    this.ImageStringValue = value;
+                    ReadImg();
                     NotifyPropertyChanged();
                 }
             }
         }
 
-        public ListItem(string title, string content, DateTimeOffset plan_date, ImageSource image)
+        private ImageSource ImageSourceValue;
+        public ImageSource Image
+        {
+            get
+            {
+                return ImageSourceValue;
+            }
+            set
+            {
+                if(value != this.ImageSourceValue)
+                {
+                    this.ImageSourceValue = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public ListItem(string title, string content, DateTimeOffset plan_date, string image)
         {
             this.id = Guid.NewGuid().ToString();
             this.Title = title;
             this.Content = content;
             this.Completed = false;
             this.Plan_date = plan_date;
-            this.Image = image;
+            this.ImageString = image;
         }
 
+        private async void ReadImg()
+        {
+            if (ImageString == "")
+            {
+                Image = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
+            }
+            else
+            {
+                StorageFile file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(ImageString);
+                if (file != null)
+                {
+                    IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
+                    BitmapImage bi = new BitmapImage();
+                    await bi.SetSourceAsync(ir);//should set source
+                    Image = bi;
+                }
+                else
+                {
+                    Image = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
+                }
+            }
+        }
 
     }
 }

@@ -53,9 +53,9 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <CheckBox x:ConnectionId='10' Name="checkBox" Grid.Column="0" Content="" FontSize="20"                />
-                                <Image x:ConnectionId='11' Grid.Column="1" Width="100" Height="100"                         Visibility="{Binding Visibility, ElementName=state0}"/>
-                                <TextBlock x:ConnectionId='12' Grid.Column="2"                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <CheckBox x:ConnectionId='10' Name="checkBox" Grid.Column="0" Content="" FontSize="20"                                              />
+                                <Image Grid.Column="1" Width="100" Height="100" Source="{Binding Image}" Visibility="{Binding Visibility, ElementName=state0}"/>
+                                <TextBlock x:ConnectionId='11' Grid.Column="2"                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <Line Stretch="Fill" Stroke="Black" VerticalAlignment="Center" Grid.Column="2" StrokeThickness="2" X1="1" Visibility="{Binding IsChecked, ElementName=checkBox}"/>
                             </Grid>
                         </UserControl>
@@ -70,9 +70,9 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:ConnectionId='13' Icon="Add" Label="Add"                    Width="Auto">
+            <AppBarButton x:ConnectionId='12' Icon="Add" Label="Add"                    Width="Auto">
             </AppBarButton>
-            <AppBarButton x:ConnectionId='14' x:Name="delete" Icon="Delete" Label="Delete"                Width="Auto" Visibility="Collapsed">
+            <AppBarButton x:ConnectionId='13' x:Name="delete" Icon="Delete" Label="Delete"                Width="Auto" Visibility="Collapsed">
             </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>

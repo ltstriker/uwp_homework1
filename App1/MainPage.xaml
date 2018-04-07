@@ -53,8 +53,8 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <CheckBox Name="checkBox" Grid.Column="0" Content="" FontSize="20" Click="Checked"/>
-                                <Image Grid.Column="1" Width="100" Height="100" Source="{x:Bind Image}" Visibility="{Binding Visibility, ElementName=state0}"/>
+                                <CheckBox Name="checkBox" Grid.Column="0" Content="" FontSize="20" IsChecked="{x:Bind Completed, Mode=TwoWay}"  />
+                                <Image Grid.Column="1" Width="100" Height="100" Source="{Binding Image}" Visibility="{Binding Visibility, ElementName=state0}"/>
                                 <TextBlock Grid.Column="2" Text="{x:Bind Title, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <Line Stretch="Fill" Stroke="Black" VerticalAlignment="Center" Grid.Column="2" StrokeThickness="2" X1="1" Visibility="{Binding IsChecked, ElementName=checkBox}"/>
                             </Grid>
