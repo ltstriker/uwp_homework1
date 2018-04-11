@@ -16,15 +16,15 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" RenderTransformOrigin="0.499,0.529" Width="212" VerticalAlignment="Top">
-                <Image x:Name="pic" Source="Assets/StoreLogo.png" Width="{Binding Value, ElementName=ImageSize}" Height="{Binding Value, ElementName=ImageSize}"></Image>
+                <Image x:Name="pic" Source="{x:Bind ViewModel.editing_item.Image, Mode=TwoWay}" Width="{Binding Value, ElementName=ImageSize}" Height="{Binding Value, ElementName=ImageSize}"></Image>
                 <Slider x:Name="ImageSize" Minimum="80" Maximum="160"></Slider>
                 <Button Content="select" HorizontalAlignment="Right" VerticalAlignment="Stretch" Click="selectPicture"/>
-                <TextBox x:Name="title" Text="" FontSize="12" PlaceholderText="title" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,5"/>
-                <TextBox x:Name="content" Text="" FontSize="14" PlaceholderText="content" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" MinHeight="64"/>
-                <DatePicker x:Name="dataPicker1" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="12" Canvas.ZIndex="3" RenderTransformOrigin="0.505,0.568" MinWidth="80" Margin="5,5,5,5"/>
+                <TextBox x:Name="title" Text="{x:Bind ViewModel.editing_item.Title, Mode=TwoWay}" FontSize="12" PlaceholderText="title" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,5,5,5"/>
+                <TextBox x:Name="content" Text="{x:Bind ViewModel.editing_item.Content, Mode=TwoWay}" FontSize="14" PlaceholderText="content" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" MinHeight="64"/>
+                <DatePicker x:Name="dataPicker1" Date="{x:Bind ViewModel.editing_item.Plan_date, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Top" FontSize="12" Canvas.ZIndex="3" RenderTransformOrigin="0.505,0.568" MinWidth="80" Margin="5,5,5,5"/>
                 <Grid Margin="5,5,5,5">
-                    <Button x:Name="cancel" Content="cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="goBack"/>
-                    <Button x:Name="create" Content="create" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.535,0.785" Click="btn_click"/>
+                    <Button x:Name="cancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="goBack"/>
+                    <Button x:Name="create" Content="Create" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.535,0.785" Click="btn_click"/>
                 </Grid>
             </StackPanel>
         </Grid>

@@ -1,12 +1,19 @@
 ﻿<Page x:Name="page"
     x:Class="App1.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:App1"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="using:App1.Models"
-    mc:Ignorable="d" Height="Auto" Width="Auto" Background="#FFF9F3F3">
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local1="using:App1.Converters"
+      xmlns:md="using:App1.Models"
+      mc:Ignorable="d" Height="Auto" Width="Auto" Background="#FFF9F3F3">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <local1:MyConverter x:Key="MyConverter"/>
+            <local1:MyConverter2 x:Key="MyConverter2"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -70,10 +77,9 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Icon="Add" Label="Add" Click="goToCreate" Width="Auto">
-            </AppBarButton>
-            <AppBarButton x:Name="delete" Icon="Delete" Label="Delete" Click="Delete" Width="Auto" Visibility="Collapsed">
-            </AppBarButton>
+            <AppBarButton Icon="Add" Label="Add" Click="goToCreate" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter2},Mode=TwoWay}"></AppBarButton>
+            <AppBarButton x:Name="delete" Icon="Delete" Label="Delete" Click="Delete" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter},Mode=TwoWay}"></AppBarButton>
+            <AppBarButton x:Name="Share" Icon="Send" Label="Share" Click="Share_Click" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter},Mode=TwoWay}"></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

@@ -35,7 +35,6 @@ namespace App1
     public sealed partial class newPage : Page
     {
         ViewModels.ListItemViewModels ViewModel = ViewModels.ListItemViewModels.getListItemViewModels();
-        private string temp_img = "";
 
         public newPage()
         {
@@ -94,12 +93,13 @@ namespace App1
             {
                 if(!ViewModel.seleted)
                 {
-                    this.ViewModel.Add(title.Text, content.Text, dataPicker1.Date, temp_img);
+                    this.ViewModel.Add(title.Text, content.Text, dataPicker1.Date, ViewModel.editing_item.ImageString);
                 }
                 else
                 {
-                    this.ViewModel.Update(title.Text, content.Text, dataPicker1.Date, temp_img);
+                    this.ViewModel.Update(title.Text, content.Text, dataPicker1.Date, ViewModel.editing_item.ImageString);
                 }
+                ActiveTile.ActiveTile.UpdateForAll();
 
                 Frame rootFrame = Window.Current.Content as Frame;
                 if (rootFrame.CanGoBack)
@@ -122,6 +122,10 @@ namespace App1
             {
                 rootFrame.GoBack();
             }
+            else
+            {
+                Reset();
+            }
         }
 
         private async void selectPicture(object sender, RoutedEventArgs e)
@@ -135,36 +139,11 @@ namespace App1
 
             StorageFile file = await openPicker.PickSingleFileAsync();
 
-            
-            temp_img = StorageApplicationPermissions.FutureAccessList.Add(file);
+
+            ViewModel.editing_item.ImageString = StorageApplicationPermissions.FutureAccessList.Add(file);
             /*
             StorageFile asd = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
             */
-
-            if (file != null)
-            {       
-                IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
-                BitmapImage bi = new BitmapImage();
-                await bi.SetSourceAsync(ir);//should set source
-                pic.Source = bi;
-            }
-        }
-
-        private async void ReadImg(string ImageString)
-        {
-            StorageFile file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(ImageString);
-
-            if (file != null)
-            {
-                IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
-                BitmapImage bi = new BitmapImage();
-                await bi.SetSourceAsync(ir);//should set source
-                pic.Source = bi;
-            }
-            else
-            {
-                pic.Source = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -172,21 +151,13 @@ namespace App1
             if(e.NavigationMode == NavigationMode.New)
             {
                 ApplicationData.Current.LocalSettings.Values.Remove("newPage");
-
-                int param = (int)e.Parameter;
-
-
-                temp_img = "";
-
-                if ((int)param != -1)
+                if (ViewModel.seleted)
                 {
-                    ListItem item = this.ViewModel.AllItems[(int)param];
-                    title.Text = item.Title;
-                    content.Text = item.Content;
-                    dataPicker1.Date = item.Plan_date;
-                    pic.Source = item.Image;
-                    temp_img = item.ImageString;
                     create.Content = "Update";
+                }
+                else
+                {
+                    create.Content = "Create";
                 }
             }
             else
@@ -194,11 +165,7 @@ namespace App1
                 if (ApplicationData.Current.LocalSettings.Values.ContainsKey("newPage"))
                 {
                     ApplicationDataCompositeValue composite = ApplicationData.Current.LocalSettings.Values["newPage"] as ApplicationDataCompositeValue;
-                    title.Text = (string)composite["title"];
-                    content.Text = (string)composite["content"];
-                    dataPicker1.Date = (DateTimeOffset)composite["time"];
-                    ReadImg((string)composite["img"]);
-                    temp_img = (string)composite["img"];
+                    ViewModel.editing_item = new ListItem((string)composite["title"], (string)composite["content"], (DateTimeOffset)composite["time"], (string)composite["img"]);
 
                     ViewModel.seleted = (bool)composite["changing"];
                     ViewModel.seleteItem = (int)composite["changingItem"];
@@ -217,7 +184,7 @@ namespace App1
                 composite["title"] = title.Text;
                 composite["content"] = content.Text;
                 composite["time"] = dataPicker1.Date;
-                composite["img"] = temp_img;
+                composite["img"] = ViewModel.editing_item.ImageString;
                 composite["changing"] = ViewModel.seleted;
                 composite["changingItem"] = ViewModel.seleteItem;
                 ApplicationData.Current.LocalSettings.Values["newPage"] = composite;
@@ -228,12 +195,14 @@ namespace App1
         {
             title.Text = "";
             content.Text = "";
-            temp_img = "";
             dataPicker1.Date = DateTimeOffset.Now;
 
             BitmapImage bi = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
             pic.Source = bi;
             create.Content = "Create";
+
+            ViewModel.seleted = false;
+            ViewModel.editing_item = new Models.ListItem();
         }
 
     }

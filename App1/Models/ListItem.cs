@@ -86,6 +86,7 @@ namespace App1.Models
                 }
             }
         }
+        public string ImagePath;
 
         private ImageSource ImageSourceValue;
         public ImageSource Image
@@ -113,18 +114,30 @@ namespace App1.Models
             this.Plan_date = plan_date;
             this.ImageString = image;
         }
+        public ListItem()
+        {
+            this.id = Guid.NewGuid().ToString();
+            this.Title = "";
+            this.Content = "";
+            this.Completed = false;
+            this.Plan_date = DateTimeOffset.Now;
+            this.ImageString = "";
+        }
+
 
         private async void ReadImg()
         {
             if (ImageString == "")
             {
                 Image = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
+                ImagePath = "Assets/StoreLogo.png";
             }
             else
             {
                 StorageFile file = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(ImageString);
                 if (file != null)
                 {
+                    ImagePath = file.Path;
                     IRandomAccessStream ir = await file.OpenAsync(FileAccessMode.Read);
                     BitmapImage bi = new BitmapImage();
                     await bi.SetSourceAsync(ir);//should set source
@@ -132,6 +145,7 @@ namespace App1.Models
                 }
                 else
                 {
+                    ImagePath = "Assets/StoreLogo.png";
                     Image = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
                 }
             }

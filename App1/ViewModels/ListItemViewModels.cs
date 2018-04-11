@@ -40,17 +40,17 @@ namespace App1.ViewModels
                 }
             }
         }
+        public Models.ListItem editing_item;
 
         public int seleteItem;
         public ObservableCollection<Models.ListItem> AllItems{get { return this.allItems; } }
-
-        public Visibility CanDelete { get { return seleted ? Visibility.Visible : Visibility.Collapsed; } }
 
         private static ListItemViewModels _listItemViewModels;
         private ListItemViewModels()
         {
             allItems = new ObservableCollection<Models.ListItem>();
             seleted = false;
+            editing_item = new Models.ListItem();
             seleteItem = -1;
         }
 

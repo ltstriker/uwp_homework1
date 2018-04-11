@@ -22,6 +22,7 @@ F:\github\App1\App1\bin\x86\Debug\System.Xml.Linq.dll
 F:\github\App1\App1\bin\x86\Debug\System.Xml.Serialization.dll
 F:\github\App1\App1\bin\x86\Debug\System.Xml.dll
 F:\github\App1\App1\bin\x86\Debug\System.dll
+F:\github\App1\App1\bin\x86\Debug\Microsoft.Toolkit.Uwp.Notifications.dll
 F:\github\App1\App1\bin\x86\Debug\Microsoft.VisualBasic.dll
 F:\github\App1\App1\bin\x86\Debug\Microsoft.Xaml.Interactions.dll
 F:\github\App1\App1\bin\x86\Debug\Microsoft.Xaml.Interactivity.dll
@@ -221,6 +222,7 @@ F:\github\App1\App1\obj\x86\Debug\qualifiers.txt.intermediate
 F:\github\App1\App1\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 F:\github\App1\App1\obj\x86\Debug\resources.en-us.resfiles
 F:\github\App1\App1\obj\x86\Debug\resources.en-us.resfiles.intermediate
+F:\github\App1\App1\obj\x86\Debug\Microsoft.Toolkit.Uwp.Notifications.pri.xml
 F:\github\App1\App1\obj\x86\Debug\Microsoft.Xaml.Interactions.pri.xml
 F:\github\App1\App1\obj\x86\Debug\Microsoft.Xaml.Interactivity.pri.xml
 F:\github\App1\App1\obj\x86\Debug\ProjectArchitectures.txt

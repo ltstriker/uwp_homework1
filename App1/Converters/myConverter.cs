@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 
 namespace App1.Converters
 {
-    public class Myconverter : IValueConverter
+    public class MyConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -18,9 +18,24 @@ namespace App1.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            Visibility val = (Visibility)value;
+            return val == Visibility.Visible ? true : false;
+        }
+    };
+
+    public class MyConverter2 : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            bool val = (bool)value;
+            return !val ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            Visibility val = (Visibility)value;
+            return val == Visibility.Visible ? false : true;
         }
     }
-
 }
 

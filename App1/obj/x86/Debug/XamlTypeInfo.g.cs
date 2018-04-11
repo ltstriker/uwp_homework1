@@ -132,17 +132,23 @@ namespace App1.App1_XamlTypeInfo
 
         private void InitTypeTables()
         {
-            _typeNameTable = new string[4];
-            _typeNameTable[0] = "App1.MainPage";
-            _typeNameTable[1] = "Windows.UI.Xaml.Controls.Page";
-            _typeNameTable[2] = "Windows.UI.Xaml.Controls.UserControl";
-            _typeNameTable[3] = "App1.newPage";
+            _typeNameTable = new string[7];
+            _typeNameTable[0] = "App1.Converters.MyConverter";
+            _typeNameTable[1] = "Object";
+            _typeNameTable[2] = "App1.Converters.MyConverter2";
+            _typeNameTable[3] = "App1.MainPage";
+            _typeNameTable[4] = "Windows.UI.Xaml.Controls.Page";
+            _typeNameTable[5] = "Windows.UI.Xaml.Controls.UserControl";
+            _typeNameTable[6] = "App1.newPage";
 
-            _typeTable = new global::System.Type[4];
-            _typeTable[0] = typeof(global::App1.MainPage);
-            _typeTable[1] = typeof(global::Windows.UI.Xaml.Controls.Page);
-            _typeTable[2] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
-            _typeTable[3] = typeof(global::App1.newPage);
+            _typeTable = new global::System.Type[7];
+            _typeTable[0] = typeof(global::App1.Converters.MyConverter);
+            _typeTable[1] = typeof(global::System.Object);
+            _typeTable[2] = typeof(global::App1.Converters.MyConverter2);
+            _typeTable[3] = typeof(global::App1.MainPage);
+            _typeTable[4] = typeof(global::Windows.UI.Xaml.Controls.Page);
+            _typeTable[5] = typeof(global::Windows.UI.Xaml.Controls.UserControl);
+            _typeTable[6] = typeof(global::App1.newPage);
         }
 
         private int LookupTypeIndexByName(string typeName)
@@ -177,8 +183,10 @@ namespace App1.App1_XamlTypeInfo
             return -1;
         }
 
-        private object Activate_0_MainPage() { return new global::App1.MainPage(); }
-        private object Activate_3_newPage() { return new global::App1.newPage(); }
+        private object Activate_0_MyConverter() { return new global::App1.Converters.MyConverter(); }
+        private object Activate_2_MyConverter2() { return new global::App1.Converters.MyConverter2(); }
+        private object Activate_3_MainPage() { return new global::App1.MainPage(); }
+        private object Activate_6_newPage() { return new global::App1.newPage(); }
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(int typeIndex)
         {
@@ -190,24 +198,42 @@ namespace App1.App1_XamlTypeInfo
             switch (typeIndex)
             {
 
-            case 0:   //  App1.MainPage
-                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_0_MainPage;
+            case 0:   //  App1.Converters.MyConverter
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_0_MyConverter;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
 
-            case 1:   //  Windows.UI.Xaml.Controls.Page
+            case 1:   //  Object
                 xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
                 break;
 
-            case 2:   //  Windows.UI.Xaml.Controls.UserControl
-                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+            case 2:   //  App1.Converters.MyConverter2
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Object"));
+                userType.Activator = Activate_2_MyConverter2;
+                userType.SetIsLocalType();
+                xamlType = userType;
                 break;
 
-            case 3:   //  App1.newPage
+            case 3:   //  App1.MainPage
                 userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_3_newPage;
+                userType.Activator = Activate_3_MainPage;
+                userType.SetIsLocalType();
+                xamlType = userType;
+                break;
+
+            case 4:   //  Windows.UI.Xaml.Controls.Page
+                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 5:   //  Windows.UI.Xaml.Controls.UserControl
+                xamlType = new global::App1.App1_XamlTypeInfo.XamlSystemBaseType(typeName, type);
+                break;
+
+            case 6:   //  App1.newPage
+                userType = new global::App1.App1_XamlTypeInfo.XamlUserType(this, typeName, type, GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_6_newPage;
                 userType.SetIsLocalType();
                 xamlType = userType;
                 break;
