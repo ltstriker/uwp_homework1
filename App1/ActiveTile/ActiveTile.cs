@@ -106,12 +106,14 @@ namespace App1.ActiveTile
                     {
                         Content = new TileBindingContentAdaptive()
                         {
+                            BackgroundImage = new TileBackgroundImage()
+                            {
+                                Source = "Assets/StoreLogo.png"
+                            },
+
                             Children =
                             {
-                                new AdaptiveText()
-                                {
-                                    Text = subject
-                                }
+                                
                             }
                         }
                     },
