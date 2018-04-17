@@ -139,11 +139,11 @@ namespace App1
 
             StorageFile file = await openPicker.PickSingleFileAsync();
 
-
-            ViewModel.editing_item.ImageString = StorageApplicationPermissions.FutureAccessList.Add(file);
-            /*
-            StorageFile asd = await StorageApplicationPermissions.FutureAccessList.GetFileAsync(token);
-            */
+            if (file != null)
+            {
+                ViewModel.editing_item.ImageString = StorageApplicationPermissions.FutureAccessList.Add(file);
+                pic.Source = ViewModel.editing_item.Image;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -165,15 +165,14 @@ namespace App1
                 if (ApplicationData.Current.LocalSettings.Values.ContainsKey("newPage"))
                 {
                     ApplicationDataCompositeValue composite = ApplicationData.Current.LocalSettings.Values["newPage"] as ApplicationDataCompositeValue;
-                    ViewModel.editing_item = new ListItem((string)composite["title"], (string)composite["content"], (DateTimeOffset)composite["time"], (string)composite["img"]);
-
-                    ViewModel.seleted = (bool)composite["changing"];
-                    ViewModel.seleteItem = (int)composite["changingItem"];
+                    ViewModel.editing_item = new ListItem((string)composite["title"], (string)composite["content"], (DateTimeOffset)composite["time"], 
+                        (string)composite["img"]);
+                    ViewModel.seleted = (bool)composite["seleted"];
+                    ViewModel.seleteItem = (int)composite["seleted_item"];
 
                     ApplicationData.Current.LocalSettings.Values.Remove("newPage");
                 }
             }
-
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -185,8 +184,8 @@ namespace App1
                 composite["content"] = content.Text;
                 composite["time"] = dataPicker1.Date;
                 composite["img"] = ViewModel.editing_item.ImageString;
-                composite["changing"] = ViewModel.seleted;
-                composite["changingItem"] = ViewModel.seleteItem;
+                composite["seleted"] = ViewModel.seleted;
+                composite["seleted_item"] = ViewModel.seleteItem;
                 ApplicationData.Current.LocalSettings.Values["newPage"] = composite;
             }
         }
@@ -197,12 +196,13 @@ namespace App1
             content.Text = "";
             dataPicker1.Date = DateTimeOffset.Now;
 
-            BitmapImage bi = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
-            pic.Source = bi;
             create.Content = "Create";
 
             ViewModel.seleted = false;
             ViewModel.editing_item = new Models.ListItem();
+
+            BitmapImage bi = new BitmapImage(new Uri("ms-appx:Assets/StoreLogo.png"));
+            pic.Source = bi;
         }
 
     }

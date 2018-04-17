@@ -1,3 +1,5 @@
+F:\github\App1\App1\bin\x86\Debug\SQLitePCL.Ext.dll
+F:\github\App1\App1\bin\x86\Debug\SQLitePCL.Ext.pri
 F:\github\App1\App1\bin\x86\Debug\App.xbf
 F:\github\App1\App1\bin\x86\Debug\MainPage.xbf
 F:\github\App1\App1\bin\x86\Debug\newPage.xbf
@@ -52,6 +54,7 @@ F:\github\App1\App1\bin\x86\Debug\System.Runtime.Extensions.dll
 F:\github\App1\App1\bin\x86\Debug\clrjit.dll
 F:\github\App1\App1\bin\x86\Debug\clrcompression.dll
 F:\github\App1\App1\bin\x86\Debug\System.Private.Uri.dll
+F:\github\App1\App1\bin\x86\Debug\SQLitePCL.dll
 F:\github\App1\App1\bin\x86\Debug\System.AppContext.dll
 F:\github\App1\App1\bin\x86\Debug\System.Buffers.dll
 F:\github\App1\App1\bin\x86\Debug\System.Collections.Concurrent.dll
@@ -208,6 +211,7 @@ F:\github\App1\App1\obj\x86\Debug\FxResources.System.Xml.ReaderWriter.SR.resw
 F:\github\App1\App1\obj\x86\Debug\FxResources.System.Xml.XDocument.SR.resw
 F:\github\App1\App1\obj\x86\Debug\FxResources.System.Xml.XmlDocument.SR.resw
 F:\github\App1\App1\obj\x86\Debug\FxResources.System.Xml.XmlSerializer.SR.resw
+F:\github\App1\App1\obj\x86\Debug\SQLitePCL\en\SQLitePCL.Resources.resw
 F:\github\App1\App1\obj\x86\Debug\App1.csproj.GenerateResource.Cache
 F:\github\App1\App1\obj\x86\Debug\priconfig.xml
 F:\github\App1\App1\obj\x86\Debug\priconfig.xml.intermediate
@@ -221,8 +225,11 @@ F:\github\App1\App1\obj\x86\Debug\qualifiers.txt
 F:\github\App1\App1\obj\x86\Debug\qualifiers.txt.intermediate
 F:\github\App1\App1\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 F:\github\App1\App1\obj\x86\Debug\resources.en-us.resfiles
+F:\github\App1\App1\obj\x86\Debug\resources.en.resfiles
 F:\github\App1\App1\obj\x86\Debug\resources.en-us.resfiles.intermediate
+F:\github\App1\App1\obj\x86\Debug\resources.en.resfiles.intermediate
 F:\github\App1\App1\obj\x86\Debug\Microsoft.Toolkit.Uwp.Notifications.pri.xml
 F:\github\App1\App1\obj\x86\Debug\Microsoft.Xaml.Interactions.pri.xml
 F:\github\App1\App1\obj\x86\Debug\Microsoft.Xaml.Interactivity.pri.xml
+F:\github\App1\App1\obj\x86\Debug\SQLitePCL.Ext.pri.xml
 F:\github\App1\App1\obj\x86\Debug\ProjectArchitectures.txt

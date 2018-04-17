@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App1.database;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -48,7 +49,7 @@ namespace App1.ViewModels
         private static ListItemViewModels _listItemViewModels;
         private ListItemViewModels()
         {
-            allItems = new ObservableCollection<Models.ListItem>();
+            allItems = Db.GetInstance().GetAll();
             seleted = false;
             editing_item = new Models.ListItem();
             seleteItem = -1;
@@ -67,10 +68,13 @@ namespace App1.ViewModels
         public void Add(string title, string content, DateTimeOffset plan_date, string image)
         {
             this.allItems.Add(new Models.ListItem(title, content, plan_date, image));
+            Db.GetInstance().Insert(this.allItems[this.allItems.Count-1].id, title, content, 
+                plan_date.Month.ToString()+"/"+plan_date.Day.ToString()+"/"+ plan_date.Year.ToString(), image);
         }
 
         public void Delete()
         {
+            Db.GetInstance().Remove(this.allItems[this.seleteItem].id);
             this.allItems.Remove(this.allItems[this.seleteItem]);
             this.seleted = false;
         }
@@ -81,13 +85,17 @@ namespace App1.ViewModels
             this.allItems[this.seleteItem].Content = content;
             this.allItems[this.seleteItem].Plan_date = plan_date;
             this.allItems[this.seleteItem].ImageString = image;
+            Db.GetInstance().Update(this.allItems[this.seleteItem].id, title, content, plan_date.Month.ToString() + 
+                "/" + plan_date.Day.ToString() + "/" + plan_date.Year.ToString(), image);
             this.seleted = false;
         }
 
         public void Complete(int index, bool finish)
         {
-            if(index>=0)
+            if (index >= 0)
+            {
                 this.allItems[index].Completed = finish;
+            }
         }
     }
 }

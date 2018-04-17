@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App1.database;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace App1.Models
             }
         }
 
-        private string id;
+        public string id;
         private string TitleValue = "";
         private bool CompleteValue = false;
 
@@ -59,11 +60,12 @@ namespace App1.Models
                 if (value != this.CompleteValue)
                 {
                     if(value.HasValue)
-                    this.CompleteValue = value.Value;
+                        this.CompleteValue = value.Value;
                     else
                     {
                         this.CompleteValue = false;
                     }
+                    Db.GetInstance().Complete(this.id, this.CompleteValue);
                     NotifyPropertyChanged();
                 }
             }
@@ -105,15 +107,19 @@ namespace App1.Models
             }
         }
 
-        public ListItem(string title, string content, DateTimeOffset plan_date, string image)
+        public ListItem(string title, string content, DateTimeOffset plan_date, string image, string id="", bool finish = false)
         {
-            this.id = Guid.NewGuid().ToString();
+            if(id == "")
+                this.id = Guid.NewGuid().ToString();
+            else
+                this.id = id;
             this.Title = title;
             this.Content = content;
-            this.Completed = false;
+            this.Completed = finish;
             this.Plan_date = plan_date;
             this.ImageString = image;
         }
+
         public ListItem()
         {
             this.id = Guid.NewGuid().ToString();

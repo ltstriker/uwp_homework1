@@ -49,8 +49,17 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="0">
-            <ListView IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{ x:Bind ViewModel.AllItems}">
+        <Grid x:Name="SearchBox" Width="200" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0">
+            <TextBox x:Name="Search" HorizontalAlignment="Left" Height="40" Width="120" PlaceholderText="Search"/>
+            <Button x:Name="Go" Click="GoSearch" HorizontalAlignment="Right" Height="40" Content="Search"/>
+        </Grid>
+        <ScrollViewer Grid.Column="0" Margin="0,50,0,0" >
+            <ListView x:Name="listview" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{ x:Bind ViewModel.AllItems}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="md:ListItem">
                         <UserControl>
@@ -59,11 +68,21 @@
                                     <ColumnDefinition Width="42"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
                                 <CheckBox Name="checkBox" Grid.Column="0" Content="" FontSize="20" IsChecked="{x:Bind Completed, Mode=TwoWay}"  />
                                 <Image Grid.Column="1" Width="100" Height="100" Source="{Binding Image}" Visibility="{Binding Visibility, ElementName=state0}"/>
                                 <TextBlock Grid.Column="2" Text="{x:Bind Title, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <Line Stretch="Fill" Stroke="Black" VerticalAlignment="Center" Grid.Column="2" StrokeThickness="2" X1="1" Visibility="{Binding IsChecked, ElementName=checkBox}"/>
+                                <AppBarButton Grid.Column="4" Icon="Setting">
+                                    <AppBarButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="Edit" Click="Edit"/>
+                                            <MenuFlyoutItem Text="Delete" Click="Delete"/>
+                                            <MenuFlyoutItem Text="Share" Click="Share_Click"/>
+                                        </MenuFlyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
                             </Grid>
                         </UserControl>
                     </DataTemplate>
@@ -78,8 +97,6 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton Icon="Add" Label="Add" Click="goToCreate" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter2},Mode=TwoWay}"></AppBarButton>
-            <AppBarButton x:Name="delete" Icon="Delete" Label="Delete" Click="Delete" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter},Mode=TwoWay}"></AppBarButton>
-            <AppBarButton x:Name="Share" Icon="Send" Label="Share" Click="Share_Click" Width="Auto" Visibility="{x:Bind ViewModel.seleted,Converter= {StaticResource MyConverter},Mode=TwoWay}"></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

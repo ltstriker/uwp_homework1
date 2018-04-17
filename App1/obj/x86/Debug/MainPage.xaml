@@ -49,37 +49,54 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.Column="0">
-            <ListView x:ConnectionId='8' IsItemClickEnabled="True"                                                                          >
+        <Grid x:ConnectionId='6' x:Name="SearchBox" Width="200" Height="40" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,5,0">
+            <TextBox x:ConnectionId='16' x:Name="Search" HorizontalAlignment="Left" Height="40" Width="120" PlaceholderText="Search"/>
+            <Button x:ConnectionId='17' x:Name="Go"                  HorizontalAlignment="Right" Height="40" Content="Search"/>
+        </Grid>
+        <ScrollViewer Grid.Column="0" Margin="0,50,0,0" >
+            <ListView x:ConnectionId='9' x:Name="listview" IsItemClickEnabled="True"                                                                          >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate                         >
-                        <UserControl x:ConnectionId='9'>
+                        <UserControl x:ConnectionId='10'>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="42"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
-                                <CheckBox x:ConnectionId='10' Name="checkBox" Grid.Column="0" Content="" FontSize="20"                                              />
+                                <CheckBox x:ConnectionId='11' Name="checkBox" Grid.Column="0" Content="" FontSize="20"                                              />
                                 <Image Grid.Column="1" Width="100" Height="100" Source="{Binding Image}" Visibility="{Binding Visibility, ElementName=state0}"/>
-                                <TextBlock x:ConnectionId='11' Grid.Column="2"                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock x:ConnectionId='12' Grid.Column="2"                                    HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                 <Line Stretch="Fill" Stroke="Black" VerticalAlignment="Center" Grid.Column="2" StrokeThickness="2" X1="1" Visibility="{Binding IsChecked, ElementName=checkBox}"/>
+                                <AppBarButton Grid.Column="4" Icon="Setting">
+                                    <AppBarButton.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem x:ConnectionId='13' Text="Edit"             />
+                                            <MenuFlyoutItem x:ConnectionId='14' Text="Delete"               />
+                                            <MenuFlyoutItem x:ConnectionId='15' Text="Share"                    />
+                                        </MenuFlyout>
+                                    </AppBarButton.Flyout>
+                                </AppBarButton>
                             </Grid>
                         </UserControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </ScrollViewer>
-        <Grid x:ConnectionId='6' x:Name="state0"></Grid>
-        <Frame x:ConnectionId='7' x:Name="right" Grid.Column="1"></Frame>
+        <Grid x:ConnectionId='7' x:Name="state0"></Grid>
+        <Frame x:ConnectionId='8' x:Name="right" Grid.Column="1"></Frame>
     </Grid>
 
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:ConnectionId='12' Icon="Add" Label="Add"                    Width="Auto"                                                                                             ></AppBarButton>
-            <AppBarButton x:ConnectionId='13' x:Name="delete" Icon="Delete" Label="Delete"                Width="Auto"                                                                                            ></AppBarButton>
-            <AppBarButton x:ConnectionId='14' x:Name="Share" Icon="Send" Label="Share"                     Width="Auto"                                                                                            ></AppBarButton>
+            <AppBarButton x:ConnectionId='18' Icon="Add" Label="Add"                    Width="Auto"                                                                                             ></AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

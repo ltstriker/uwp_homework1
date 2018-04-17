@@ -19,7 +19,7 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>F:\github\App1\App1\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>4FE3D5475EF042801AB67F30625A27FEE69016C32A3F188E6CBE025E2FDF75AB</RegisteredManifestChecksum>
+    <RegisteredManifestChecksum>D022BD0C2326D4E027A49C3CD2DAECF14820EC82AA068088B5AE402B1F4639FA</RegisteredManifestChecksum>
     <RegisteredPackageMoniker>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2_1.0.0.0_x86__75cr2b68sm664</RegisteredPackageMoniker>
     <RegisteredUserModeAppID>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2_75cr2b68sm664!App</RegisteredUserModeAppID>
     <RegisteredPackageID>8d6370b2-10ac-4f2e-bbde-cb2a35b78bd2</RegisteredPackageID>
@@ -31,13 +31,13 @@
     <AppXManifest Include="F:\github\App1\App1\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-12T16:08:29.601</Modified>
+      <Modified>2018-04-17T15:17:40.525</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\App1.exe">
       <PackagePath>entrypoint\App1.exe</PackagePath>
-      <Modified>2018-04-12T16:08:25.104</Modified>
+      <Modified>2018-04-17T15:17:25.296</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\microsoft.csharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -210,6 +210,10 @@
     <AppxPackagedFile Include="C:\Users\Administrator\.nuget\packages\runtime.win7.system.private.uri\4.3.0\runtimes\win\lib\netcore50\System.Private.Uri.dll">
       <PackagePath>System.Private.Uri.dll</PackagePath>
       <Modified>2016-11-04T20:56:36.000</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Administrator\.nuget\packages\sqlitepcl\3.8.7.2\lib\netcore451\SQLitePCL.dll">
+      <PackagePath>SQLitePCL.dll</PackagePath>
+      <Modified>2014-12-09T03:04:52.000</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\NuGetPackages\system.appcontext\4.1.0\lib\netcore50\System.AppContext.dll">
       <PackagePath>System.AppContext.dll</PackagePath>
@@ -507,6 +511,14 @@
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
       <Modified>2016-06-11T14:15:04.000</Modified>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UAP\v0.8.0.0\ExtensionSDKs\SQLite.UWP.2015\3.23.1\Redist\Debug\x86\sqlite3.dll">
+      <PackagePath>sqlite3.dll</PackagePath>
+      <Modified>2018-04-13T02:08:30.823</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Administrator\.nuget\packages\sqlitepcl\3.8.7.2\build\netcore451\SQLitePCL.Ext.dll">
+      <PackagePath>SQLitePCL.Ext.dll</PackagePath>
+      <Modified>2014-12-09T03:04:52.000</Modified>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
       <Modified>2018-03-11T03:07:33.107</Modified>
@@ -547,7 +559,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\App1.xr.xml">
       <PackagePath>App1.xr.xml</PackagePath>
-      <Modified>2018-04-10T16:59:01.851</Modified>
+      <Modified>2018-04-17T12:19:12.450</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.15063.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -556,11 +568,11 @@
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-04-11T05:44:38.365</Modified>
+      <Modified>2018-04-17T15:17:34.926</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="F:\github\App1\App1\bin\x86\Debug\Core\App1.exe">
       <PackagePath>App1.exe</PackagePath>
-      <Modified>2018-04-12T16:08:29.567</Modified>
+      <Modified>2018-04-17T15:17:40.505</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

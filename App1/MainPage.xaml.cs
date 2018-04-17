@@ -20,6 +20,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.AccessCache;
+using App1.database;
+using System.Text;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -39,11 +41,6 @@ namespace App1
         {
             this.InitializeComponent();
 
-            if (ViewModel.AllItems.Count == 0)
-            {
-                ViewModel.Add("test", "test", DateTimeOffset.Now, "");
-            }
-
             right.Navigate(typeof(newPage), -1);
         }
 
@@ -61,6 +58,7 @@ namespace App1
             ViewModel.seleted = true;
             ViewModel.seleteItem = ViewModel.AllItems.IndexOf((ListItem)e.ClickedItem);
             ViewModel.editing_item = ViewModel.AllItems[ViewModel.seleteItem];
+            ViewModel.editing_item.ImageString = ViewModel.AllItems[ViewModel.seleteItem].ImageString;
 
             if (right.Visibility == Visibility.Collapsed)
             {
@@ -73,37 +71,16 @@ namespace App1
             }
         }
 
-        private async void Delete(object sender, RoutedEventArgs e)
+
+        private void Delete(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.seleted)
-            {
-                ViewModel.Delete();
+            var dc = (sender as FrameworkElement).DataContext;
+            var item = (listview.ContainerFromItem(dc) as ListViewItem).Content as ListItem;
 
-                if (right.Visibility == Visibility.Collapsed)
-                {
-                    Frame rootFrame = Window.Current.Content as Frame;
-                    rootFrame.Navigate(typeof(MainPage));
-                }
-                else
-                {
-                    right.Navigate(typeof(newPage), -1);
-                }
-                ActiveTile.ActiveTile.UpdateForAll();
-            }
-            else
-            {
-                var dialog = new MessageDialog("内容未创建，不能删除", "错误");
-
-                dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
-                dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
-
-                //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
-
-                //获取返回值
-                var result = await dialog.ShowAsync();
-            }
+            ViewModel.seleted = true;
+            ViewModel.seleteItem = ViewModel.AllItems.IndexOf(item);
+            ViewModel.Delete();
+            Db.GetInstance().Remove(item.id);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -117,12 +94,11 @@ namespace App1
                 if (ApplicationData.Current.LocalSettings.Values.ContainsKey("mainPage"))
                 {
                     ApplicationDataCompositeValue composite = ApplicationData.Current.LocalSettings.Values["mainPage"] as ApplicationDataCompositeValue;
-                    ViewModel.Complete(0, (bool)composite["completed"]);
-                    ViewModel.seleted = true;
-                    ViewModel.seleteItem = 0;
-                    ViewModel.Update((string)composite["title"], (string)composite["content"], (DateTimeOffset)composite["time"], (string)composite["img"]);
 
-                    ViewModel.editing_item = new ListItem((string)composite["title_right"], (string)composite["content_right"], (DateTimeOffset)composite["time_right"], (string)composite["img_right"]);
+                    ViewModel.seleted = (bool)composite["seleted"];
+                    ViewModel.seleteItem = (int)composite["seleted_item"];
+                    ViewModel.editing_item = new ListItem((string)composite["title_right"], (string)composite["content_right"], 
+                        (DateTimeOffset)composite["time_right"], (string)composite["img_right"]);
                     ApplicationData.Current.LocalSettings.Values.Remove("mainPage");
                 }
             }
@@ -135,11 +111,9 @@ namespace App1
             if (((App)App.Current).issuspend)
             {
                 ApplicationDataCompositeValue composite = new ApplicationDataCompositeValue();
-                composite["completed"] = ViewModel.AllItems[0].Completed;
-                composite["title"] = ViewModel.AllItems[0].Title;
-                composite["time"] = ViewModel.AllItems[0].Plan_date;
-                composite["img"] = ViewModel.AllItems[0].ImageString;
 
+                composite["seleted"] = ViewModel.seleted;
+                composite["seleted_item"] = ViewModel.seleteItem;
                 composite["title_right"] = ViewModel.editing_item.Title;
                 composite["content_right"] = ViewModel.editing_item.Content;
                 composite["time_right"] = ViewModel.editing_item.Plan_date;
@@ -153,6 +127,11 @@ namespace App1
 
         private void Share_Click(object sender, RoutedEventArgs e)
         {
+            var dc = (sender as FrameworkElement).DataContext;
+            var item = (listview.ContainerFromItem(dc) as ListViewItem).Content as ListItem;
+            ViewModel.seleted = true;
+            ViewModel.seleteItem = ViewModel.AllItems.IndexOf(item);
+
             DataTransferManager.ShowShareUI();
         }
 
@@ -160,26 +139,8 @@ namespace App1
         {
             var dp = args.Request.Data;
             var deferral = args.Request.GetDeferral();
-            Models.ListItem item_share;
-            if (!ViewModel.seleted)
-            {
-                var dialog = new MessageDialog("未选定目标，不能分享", "错误");
-
-                dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
-                dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
-
-                //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
-                dialog.DefaultCommandIndex = 0;
-                dialog.CancelCommandIndex = 1;
-
-                //获取返回值
-                var result = await dialog.ShowAsync();
-                return;
-            }
-            else
-            {
-                item_share = ViewModel.AllItems[ViewModel.seleteItem];
-            }
+            Models.ListItem item_share = ViewModel.AllItems[ViewModel.seleteItem];
+            ViewModel.seleted = false;
 
             StorageFile photoFile = null;
             if (item_share.ImageString == "")
@@ -196,6 +157,46 @@ namespace App1
             dp.SetStorageItems(new List<StorageFile> { photoFile });
 
             deferral.Complete();
+        }
+
+        private void Edit(object sender, RoutedEventArgs e)
+        {
+            var dc = (sender as FrameworkElement).DataContext;
+            var item = (listview.ContainerFromItem(dc) as ListViewItem).Content as ListItem;
+            ViewModel.seleted = true;
+            ViewModel.seleteItem = ViewModel.AllItems.IndexOf(item);
+            ViewModel.editing_item = ViewModel.AllItems[ViewModel.seleteItem];
+            ViewModel.editing_item.ImageString = ViewModel.AllItems[ViewModel.seleteItem].ImageString;
+
+            if (right.Visibility == Visibility.Collapsed)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(newPage));
+            }
+            else
+            {
+                right.Navigate(typeof(newPage));
+            }
+
+        }
+
+        private async void GoSearch(object sender, RoutedEventArgs e)
+        {
+            string msg = Db.GetInstance().Search(Search.Text);
+
+
+            var dialog = new MessageDialog(msg.ToString(), "Result");
+
+            dialog.Commands.Add(new UICommand("确定", cmd => { }, commandId: 0));
+            dialog.Commands.Add(new UICommand("取消", cmd => { }, commandId: 1));
+
+            //设置默认按钮，不设置的话默认的确认按钮是第一个按钮
+
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+
+            //获取返回值
+            var result = await dialog.ShowAsync();
         }
     }
 }
