@@ -130,19 +130,26 @@ namespace App1
 
         private async void selectPicture(object sender, RoutedEventArgs e)
         {
-            FileOpenPicker openPicker = new FileOpenPicker();
-            openPicker.ViewMode = PickerViewMode.Thumbnail;
-            openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
-            openPicker.FileTypeFilter.Add(".jpg");
-            openPicker.FileTypeFilter.Add(".jpeg");
-            openPicker.FileTypeFilter.Add(".png");
-
-            StorageFile file = await openPicker.PickSingleFileAsync();
-
-            if (file != null)
+            try
             {
-                ViewModel.editing_item.ImageString = StorageApplicationPermissions.FutureAccessList.Add(file);
-                pic.Source = ViewModel.editing_item.Image;
+                FileOpenPicker openPicker = new FileOpenPicker();
+                openPicker.ViewMode = PickerViewMode.Thumbnail;
+                openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                openPicker.FileTypeFilter.Add(".jpg");
+                openPicker.FileTypeFilter.Add(".jpeg");
+                openPicker.FileTypeFilter.Add(".png");
+
+                StorageFile file = await openPicker.PickSingleFileAsync();
+
+                if (file != null)
+                {
+                    ViewModel.editing_item.ImageString = StorageApplicationPermissions.FutureAccessList.Add(file);
+                    pic.Source = ViewModel.editing_item.Image;
+                }
+            }
+            catch (Exception ex)
+            {
+                //throw;
             }
         }
 
